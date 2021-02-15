@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>How many voices?</title>
+    <link href="./jspsych-6.2.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    <link rel="stylesheet" type="text/css" href="./jspsych-6.2.0/css/jspsych.css">
+    <script src="./jspsych-6.2.0/jspsych.js"></script>
+
+    <script src="./jspsych-6.2.0/plugins/jspsych-audio-keyboard-response.js"></script>
+    <script src="./jspsych-6.2.0/plugins/jspsych-audio-button-response.js"></script>
+    <script src="./jspsych-6.2.0/plugins/jspsych-image-keyboard-response.js"></script>
+    <script src="./jspsych-6.2.0/plugins/jspsych-image-button-response.js"></script>
+    <script src="./jspsych-6.2.0/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="./jspsych-6.2.0/plugins/jspsych-html-button-response.js"></script>
+    <script src="./jspsych-6.2.0/plugins/jspsych-survey-multi-choice.js"></script>
+    <script src="./jspsych-6.2.0/plugins/jspsych-survey-multi-select.js"></script>
+    <script src="./jspsych-6.2.0/plugins/jspsych-survey-text.js"></script>
+    <script src="./jspsych-6.2.0/plugins/jspsych-survey-likert.js"></script>
+    <script src="./jspsych-6.2.0/plugins/custom/jspsych-survey-text-number.js"></script>
+    <script src="./jspsych-6.2.0/plugins/custom/jspsych-survey-text-dropdown.js"></script>
+
+  </head>
+  <body></body>
+
+<script>
+
+    var timeline = [];
+
+/* ~~~ SETUP ~~~ */
+    // Headphone check stimuli
+    var headphoneStim = [
+        { stimulus1: "./study_stim/antiphase_HC_I.mp3", stimulus2: "./study_stim/antiphase_HC_O.mp3", stimulus3: "./study_stim/antiphase_HC_S.mp3", correct: 3, trialName: 'HC_IOS' },
+        { stimulus1: "./study_stim/antiphase_HC_I.mp3", stimulus2: "./study_stim/antiphase_HC_S.mp3", stimulus3: "./study_stim/antiphase_HC_O.mp3", correct: 2, trialName: 'HC_ISO' },
+        { stimulus1: "./study_stim/antiphase_HC_O.mp3", stimulus2: "./study_stim/antiphase_HC_I.mp3", stimulus3: "./study_stim/antiphase_HC_S.mp3", correct: 3, trialName: 'HC_OIS' },
+        { stimulus1: "./study_stim/antiphase_HC_O.mp3", stimulus2: "./study_stim/antiphase_HC_S.mp3", stimulus3: "./study_stim/antiphase_HC_I.mp3", correct: 2, trialName: 'HC_OSI' },
+        { stimulus1: "./study_stim/antiphase_HC_S.mp3", stimulus2: "./study_stim/antiphase_HC_I.mp3", stimulus3: "./study_stim/antiphase_HC_O.mp3", correct: 1, trialName: 'HC_SIO' },
+        { stimulus1: "./study_stim/antiphase_HC_S.mp3", stimulus2: "./study_stim/antiphase_HC_O.mp3", stimulus3: "./study_stim/antiphase_HC_I.mp3", correct: 1, trialName: 'HC_SOI' }
+    ];
+
+    // Stimuli
+    var audio = [
+    // Laugh
+        "./study_stim/M1_sampleA_norm16.wav",
+        "./study_stim/M1_sampleB_norm16.wav",
+        "./study_stim/M1_sampleC_norm16.wav",
+        "./study_stim/M1_sampleD_norm16.wav",
+        "./study_stim/M1_sampleE_norm16.wav",
+        "./study_stim/M1_sampleF_norm16.wav",
+        "./study_stim/F1_sampleA_norm16.wav",
+        "./study_stim/F1_sampleB_norm16.wav",
+        "./study_stim/F1_sampleC_norm16.wav",
+        "./study_stim/F1_sampleD_norm16.wav",
+        "./study_stim/F1_sampleE_norm16.wav",
+        "./study_stim/F1_sampleF_norm16.wav",
+    // Talking
+        "./study_stim/M2_sampleA_norm16.wav",
+        "./study_stim/M2_sampleB_norm16.wav",
+        "./study_stim/M2_sampleC_norm16.wav",
+        "./study_stim/M2_sampleD_norm16.wav",
+        "./study_stim/M2_sampleE_norm16.wav",
+        "./study_stim/M2_sampleF_norm16.wav",
+        "./study_stim/F2_sampleA_norm16.wav",
+        "./study_stim/F2_sampleB_norm16.wav",
+        "./study_stim/F2_sampleC_norm16.wav",
+        "./study_stim/F2_sampleD_norm16.wav",
+        "./study_stim/F2_sampleE_norm16.wav",
+        "./study_stim/F2_sampleF_norm16.wav",
+    // Sentence
+        "./study_stim/M3_sampleA_norm16.wav",
+        "./study_stim/M3_sampleB_norm16.wav",
+        "./study_stim/M3_sampleC_norm16.wav",
+        "./study_stim/M3_sampleD_norm16.wav",
+        "./study_stim/M3_sampleE_norm16.wav",
+        "./study_stim/M3_sampleF_norm16.wav",
+        "./study_stim/F3_sampleA_norm16.wav",
+        "./study_stim/F3_sampleB_norm16.wav",
+        "./study_stim/F3_sampleC_norm16.wav",
+        "./study_stim/F3_sampleD_norm16.wav",
+        "./study_stim/F3_sampleE_norm16.wav",
+        "./study_stim/F3_sampleF_norm16.wav",
+    // Yell
+        "./study_stim/M4_sampleA_norm16.wav",
+        "./study_stim/M4_sampleB_norm16.wav",
+        "./study_stim/M4_sampleC_norm16.wav",
+        "./study_stim/M4_sampleD_norm16.wav",
+        "./study_stim/M4_sampleE_norm16.wav",
+        "./study_stim/M4_sampleF_norm16.wav",
+        "./study_stim/F4_sampleA_norm16.wav",
+        "./study_stim/F4_sampleB_norm16.wav",
+        "./study_stim/F4_sampleC_norm16.wav",
+        "./study_stim/F4_sampleD_norm16.wav",
+        "./study_stim/F4_sampleE_norm16.wav",
+        "./study_stim/F4_sampleF_norm16.wav",
+    ];
+
+    var stimuli_data = [
+        // Laugh
+        {
+            stimulus: audio[0],
+            data: {
+                type: 'laugh',
+                sex: 'male',
+                g_size: 2,
+                correct_button: 1 // Index for 2
+            }
+        },
+        {
+            stimulus: audio[1],
+            data: {
+                type: 'laugh',
+                sex: 'male',
+                g_size: 4,
+                correct_button: 3 // Index for 4
+            }
+        },
+        {
+            stimulus: audio[2],
+            data: {
+                type: 'laugh',
+                sex: 'male',
+                g_size: 6,
+                correct_button: 5 // Index for 6
+            }
+        },
+        {
+            stimulus: audio[3],
+            data: {
+                type: 'laugh',
+                sex: 'male',
+                g_size: 1,
+                correct_button: 0 // Index for 1
+            }
+        },
+        {
+            stimulus: audio[4],
+            data: {
+                type: 'laugh',
+                sex: 'male',
+                g_size: 3,
+                correct_button: 2 // Index for 3
+            }
+        },
+        {
+            stimulus: audio[5],
+            data: {
+                type: 'laugh',
+                sex: 'male',
+                g_size: 5,
+                correct_button: 4 // Index for 5
+            }
+        },
+        {
+            stimulus: audio[6],
+            data: {
+                type: 'laugh',
+                sex: 'female',
+                g_size: 2,
+                correct_button: 1 // Index for 2
+            }
+        },
+        {
+            stimulus: audio[7],
+            data: {
+                type: 'laugh',
+                sex: 'female',
+                g_size: 4,
+                correct_button: 3 // Index for 4
+            }
+        },
+        {
+            stimulus: audio[8],
+            data: {
+                type: 'laugh',
+                sex: 'female',
+                g_size: 6,
+                correct_button: 5 // Index for 6
+            }
+        },
+        {
+            stimulus: audio[9],
+            data: {
+                type: 'laugh',
+                sex: 'female',
+                g_size: 1,
+                correct_button: 0 // Index for 1
+            }
+        },
+        {
+            stimulus: audio[10],
+            data: {
+                type: 'laugh',
+                sex: 'female',
+                g_size: 3,
+                correct_button: 2 // Index for 3
+            }
+        },
+        {
+            stimulus: audio[11],
+            data: {
+                type: 'laugh',
+                sex: 'female',
+                g_size: 5,
+                correct_button: 4 // Index for 5
+            }
+        },
+        // Sentence
+        {
+            stimulus: audio[12],
+            data: {
+                type: 'sentence',
+                sex: 'male',
+                g_size: 2,
+                correct_button: 1 // Index for 2
+            }
+        },
+        {
+            stimulus: audio[13],
+            data: {
+                type: 'sentence',
+                sex: 'male',
+                g_size: 4,
+                correct_button: 3 // Index for 4
+            }
+        },
+        {
+            stimulus: audio[14],
+            data: {
+                type: 'sentence',
+                sex: 'male',
+                g_size: 6,
+                correct_button: 5 // Index for 6
+            }
+        },
+        {
+            stimulus: audio[15],
+            data: {
+                type: 'sentence',
+                sex: 'male',
+                g_size: 1,
+                correct_button: 0 // Index for 1
+            }
+        },
+        {
+            stimulus: audio[16],
+            data: {
+                type: 'sentence',
+                sex: 'male',
+                g_size: 3,
+                correct_button: 2 // Index for 3
+            }
+        },
+        {
+            stimulus: audio[17],
+            data: {
+                type: 'sentence',
+                sex: 'male',
+                g_size: 5,
+                correct_button: 4 // Index for 5
+            }
+        },
+        {
+            stimulus: audio[18],
+            data: {
+                type: 'sentence',
+                sex: 'female',
+                g_size: 2,
+                correct_button: 1 // Index for 2
+            }
+        },
+        {
+            stimulus: audio[19],
+            data: {
+                type: 'sentence',
+                sex: 'female',
+                g_size: 4,
+                correct_button: 3 // Index for 4
+            }
+        },
+        {
+            stimulus: audio[20],
+            data: {
+                type: 'sentence',
+                sex: 'female',
+                g_size: 6,
+                correct_button: 5 // Index for 6
+            }
+        },
+        {
+            stimulus: audio[21],
+            data: {
+                type: 'sentence',
+                sex: 'female',
+                g_size: 1,
+                correct_button: 0 // Index for 1
+            }
+        },
+        {
+            stimulus: audio[22],
+            data: {
+                type: 'sentence',
+                sex: 'female',
+                g_size: 3,
+                correct_button: 2 // Index for 3
+            }
+        },
+        {
+            stimulus: audio[23],
+            data: {
+                type: 'sentence',
+                sex: 'female',
+                g_size: 5,
+                correct_button: 4 // Index for 5
+            }
+        },
+        // Talking
+        {
+            stimulus: audio[24],
+            data: {
+                type: 'talking',
+                sex: 'male',
+                g_size: 2,
+                correct_button: 1 // Index for 2
+            }
+        },
+        {
+            stimulus: audio[25],
+            data: {
+                type: 'talking',
+                sex: 'male',
+                g_size: 4,
+                correct_button: 3 // Index for 4
+            }
+        },
+        {
+            stimulus: audio[26],
+            data: {
+                type: 'talking',
+                sex: 'male',
+                g_size: 6,
+                correct_button: 5 // Index for 6
+            }
+        },
+        {
+            stimulus: audio[27],
+            data: {
+                type: 'talking',
+                sex: 'male',
+                g_size: 1,
+                correct_button: 0 // Index for 1
+            }
+        },
+        {
+            stimulus: audio[28],
+            data: {
+                type: 'talking',
+                sex: 'male',
+                g_size: 3,
+                correct_button: 2 // Index for 3
+            }
+        },
+        {
+            stimulus: audio[29],
+            data: {
+                type: 'talking',
+                sex: 'male',
+                g_size: 5,
+                correct_button: 4 // Index for 5
+            }
+        },
+        {
+            stimulus: audio[30],
+            data: {
+                type: 'talking',
+                sex: 'female',
+                g_size: 2,
+                correct_button: 1 // Index for 2
+            }
+        },
+        {
+            stimulus: audio[31],
+            data: {
+                type: 'talking',
+                sex: 'female',
+                g_size: 4,
+                correct_button: 3 // Index for 4
+            }
+        },
+        {
+            stimulus: audio[32],
+            data: {
+                type: 'talking',
+                sex: 'female',
+                g_size: 6,
+                correct_button: 5 // Index for 6
+            }
+        },
+        {
+            stimulus: audio[33],
+            data: {
+                type: 'talking',
+                sex: 'female',
+                g_size: 1,
+                correct_button: 0 // Index for 1
+            }
+        },
+        {
+            stimulus: audio[34],
+            data: {
+                type: 'talking',
+                sex: 'female',
+                g_size: 3,
+                correct_button: 2 // Index for 3
+            }
+        },
+        {
+            stimulus: audio[35],
+            data: {
+                type: 'talking',
+                sex: 'female',
+                g_size: 5,
+                correct_button: 4 // Index for 5
+            }
+        },
+        // Yell
+        {
+            stimulus: audio[36],
+            data: {
+                type: 'yell',
+                sex: 'male',
+                g_size: 2,
+                correct_button: 1 // Index for 2
+            }
+        },
+        {
+            stimulus: audio[37],
+            data: {
+                type: 'yell',
+                sex: 'male',
+                g_size: 4,
+                correct_button: 3 // Index for 4
+            }
+        },
+        {
+            stimulus: audio[38],
+            data: {
+                type: 'yell',
+                sex: 'male',
+                g_size: 6,
+                correct_button: 5 // Index for 6
+            }
+        },
+        {
+            stimulus: audio[39],
+            data: {
+                type: 'yell',
+                sex: 'male',
+                g_size: 1,
+                correct_button: 0 // Index for 1
+            }
+        },
+        {
+            stimulus: audio[40],
+            data: {
+                type: 'yell',
+                sex: 'male',
+                g_size: 3,
+                correct_button: 2 // Index for 3
+            }
+        },
+        {
+            stimulus: audio[41],
+            data: {
+                type: 'yell',
+                sex: 'male',
+                g_size: 5,
+                correct_button: 4 // Index for 5
+            }
+        },
+        {
+            stimulus: audio[42],
+            data: {
+                type: 'yell',
+                sex: 'female',
+                g_size: 2,
+                correct_button: 1 // Index for 2
+            }
+        },
+        {
+            stimulus: audio[43],
+            data: {
+                type: 'yell',
+                sex: 'female',
+                g_size: 4,
+                correct_button: 3 // Index for 4
+            }
+        },
+        {
+            stimulus: audio[44],
+            data: {
+                type: 'yell',
+                sex: 'female',
+                g_size: 6,
+                correct_button: 5 // Index for 6
+            }
+        },
+        {
+            stimulus: audio[45],
+            data: {
+                type: 'yell',
+                sex: 'female',
+                g_size: 1,
+                correct_button: 0 // Index for 1
+            }
+        },
+        {
+            stimulus: audio[46],
+            data: {
+                type: 'yell',
+                sex: 'female',
+                g_size: 3,
+                correct_button: 2 // Index for 3
+            }
+        },
+        {
+            stimulus: audio[47],
+            data: {
+                type: 'yell',
+                sex: 'female',
+                g_size: 5,
+                correct_button: 4 // Index for 5
+            }
+        },
+    ];
+
+    var stimuli_data_shuffled = jsPsych.randomization.sampleWithoutReplacement(stimuli_data)
+
+    // Audio preload setup
+    var audioPreload = [
+        "./study_stim/antiphase_HC_I.mp3",
+        "./study_stim/antiphase_HC_IOS.mp3",
+        "./study_stim/antiphase_HC_ISO.mp3",
+        "./study_stim/antiphase_HC_O.mp3",
+        "./study_stim/antiphase_HC_OIS.mp3",
+        "./study_stim/antiphase_HC_OSI.mp3",
+        "./study_stim/antiphase_HC_S.mp3",
+        "./study_stim/antiphase_HC_SIO.mp3",
+        "./study_stim/antiphase_HC_SOI.mp3"
+    ]
+    audioPreload.push(audio)
+    console.log(audioPreload);
+
+    // Image preload setup
+    var images = [
+        "./study_stim/dotsA.png",
+        "./study_stim/dotsB.png",
+        "./study_stim/dotsC.png"
+    ];
+/* ~~~ CONSENT ~~~ */
+    var welcome = {
+        type: 'html-button-response',
+        stimulus: '<p align="left">Before you decide to participate, please read the following information.</p><p align="left">This study is being conducted by researchers in the Department of Communication at University of California, Los Angeles. You are eligible to participate in this research because you are at least 18 years of age</p><p align="left">The goal in this study is to see how well listeners can identify the number of speakers from hearing a group vocalize together. In this study you will be presented with recordings of multiple speakers and asked questions about the number of speakers. The study will take about 30-45 minutes. You will be compensated $6 upon completion of the study.</p><p align="left">No potential risks or discomforts are anticipated. This research may help us to better understand the perception of group vocalizations.</p><p align="left">The researchers will do their best to make sure that your private information is kept confidential. Information about you will be handled as confidentially as possible, but participating in research may involve a loss of privacy and the potential for a breach in confidentiality. Study data will be physically and electronically secured.  As with any use of electronic means to store data, there is a risk of breach of data security. Your data, including de-identified data may be kept for use in future research.</p><p align="left">If you have questions or concerns about the research, please feel free to contact the Principal Investigator:</p><p align="left">PLACEHOLDER</p><p align="left">You may withdraw your consent at any time and may discontinue participation without penalty.  You are not waiving any legal claims, rights or remedies because of your child’s participation in this research study. If you have questions about your rights as a research subject, or you have concerns or suggestions and you want to talk to someone other than the researchers, you may contact the UCLA OHRPP by phone: PLACEHOLDER</p><p align="center"><b>Please wear headphones for the duration of this study!</b></p><br>',
+        choices: ['Next']
+    };
+
+/* ~~~ HHEADPHONE CHECK ~~~ */
+    var headphoneIntro = {
+        type: 'html-button-response',
+        stimulus: '<p>In this section, we will play you some tones and ask you questions about them.</p><p>This helps us to calibrate the audio for your device and your headphones.</p><p>After you click "Continue", <b>you will hear three tones.</b></p><p>We will ask you which one was the <b>QUIETEST/SOFTEST</b>.</p><p>The tones will only be played once, so listen carefully!</p>',
+        prompt1: ' ',
+        prompt2: ' ',
+        choices: ['Continue']
+    };
+    var headphoneCheck = {
+        timeline: [
+            {
+                type: 'audio-keyboard-response',
+                stimulus: jsPsych.timelineVariable('stimulus1'),
+                prompt: '<br><br><p><font size="36px">1</font></p>',
+                trial_ends_after_audio: true
+            },
+            {
+                type: 'audio-keyboard-response',
+                stimulus: jsPsych.timelineVariable('stimulus2'),
+                prompt: '<br><br><p><font size="36px">2</font></p>',
+                trial_ends_after_audio: true
+            },
+            {
+                type: 'audio-keyboard-response',
+                stimulus: jsPsych.timelineVariable('stimulus3'),
+                prompt: '<br><br><p><font size="36px">3</font></p>',
+                trial_ends_after_audio: true
+            },
+            {
+                type: 'html-keyboard-response',
+                stimulus: '<p>Which tone was the QUIETEST/SOFTEST?</p><p>Use your keyboard to respond.</p><p>Press <b>1</b>, <b>2</b>, or <b>3</b> to indicate which tone was the QUIETEST/SOFTEST.</p>',
+                choices: ['1', '2', '3', 97, 98, 99], // numpad keys: 97=1, 98=2, 99=3
+                data: [{trialType: "headphone"}]
+            }
+        ],
+        timeline_variables: headphoneStim,
+        sample: {
+            size: 6,
+            type: 'with-replacement'
+        }
+    };
+
+/* ~~~ NUMEROSITY TRIALS ~~~ */
+    // Intro
+    var num_intro = {
+        timeline: [
+            {
+                type: 'html-button-response',
+                stimulus: '<p align="left">In this task, you will be listening to audio recordings of voices. You will be asked to select the button with the number of voices you think you heard in the recording.</p><p></p><br>',
+                choices: ['Next']
+            },
+            {
+                type: 'html-button-response',
+                stimulus: '<p align="left">Let\'s first do a practice! In the practice, you will do the same task, but with images of circles. Select the button with the number of circles you think you see in the image.<p></p><br>',
+                choices: ['Next']
+            }
+        ]
+    };
+
+    // Practice
+    var num_practice = {
+        timeline: [
+            {
+                type: 'html-button-response',
+                prompt: '<p align="center">Start trial?</p>',
+                button_html: '<button class="jspsych-btn" style="margin-top: 300px">%choice%</button>',
+                choices: ['Go!'],
+                stimulus: ''
+            },
+            {
+                type: 'html-button-response',
+                stimulus: '',
+                prompt: '<p align="center"><img src="./study_stim/dotsA.png"><br>How many individual circles are there?</p>',
+                choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            },
+            {
+                type: 'html-button-response',
+                prompt: '<p align="center">Start trial?</p>',
+                button_html: '<button class="jspsych-btn" style="margin-top: 300px">%choice%</button>',
+                choices: ['Go!'],
+                stimulus: ''
+            },
+            {
+                type: 'html-button-response',
+                stimulus: '',
+                prompt: '<p align="center"><img src="./study_stim/dotsB.png"><br>How many individual circles are there?</p>',
+                choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            },
+            {
+                type: 'html-button-response',
+                prompt: '<p align="center">Start trial?</p>',
+                button_html: '<button class="jspsych-btn" style="margin-top: 300px">%choice%</button>',
+                choices: ['Go!'],
+                stimulus: ''
+            },
+            {
+                type: 'html-button-response',
+                stimulus: '',
+                prompt: '<p align="center"><img src="./study_stim/dotsC.png"><br>How many individual circles are there?</p>',
+                choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            }
+        ]
+	};
+
+    // Real trials
+    var num_ready = {
+        type: 'html-button-response',
+        stimulus: '<p align="left">Now let\'s start with the real task! Select the button with the number of voices you think you heard in the recording.</p><p></p><br>',
+        choices: ['Next']
+    };
+
+    var num_trials = {
+        timeline: [
+            {
+                type: 'html-button-response',
+                prompt: '<p align="center">Start trial?</p>',
+                button_html: '<button class="jspsych-btn" style="margin-top: 300px">%choice%</button>',
+                choices: ['Go!'],
+                stimulus: '',
+                data: jsPsych.timelineVariable('data')
+            },
+            {
+                type: 'audio-button-response',
+                prompt: '<p align="center" style="margin-top: 300px">How many individual voices are there?</p>',
+                choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                stimulus: jsPsych.timelineVariable('stimulus'),
+                data: jsPsych.timelineVariable('data'),
+                on_finish: function(data) {
+                    data.correct = data.button_pressed == data.correct_button;
+                    count = jsPsych.data.get().filter({correct: true}).count();
+                    console.log(count)
+                    stim = data.stimulus;
+                    console.log(stim)
+                    console.log('Correct? '+data.correct)
+                }
+            }
+        ],
+        timeline_variables: stimuli_data,
+        sample: {
+            size: 48,
+            type: 'without-replacement'
+        }
+	};
+
+/* ~~~ SURVEY ~~~ */
+    // Demographics
+    var langList = [
+        'English', 'Abenaki', 'Abkhaz', 'Adyghe', 'Afrikaans', 'Ainu', 'Aklanon', 'Albanian', 'Algerian', 'American Sign Language', 'Apache', 'Arabic', 'Aragonese', 'Aramaic', 'Armenian', 'Avestan', 'Ayapathu', 'Aymara', 'Azeri', 'Balinese', 'Bamwe', 'Bantu', 'Basa', 'Basque', 'Belarusian', 'Bemba', 'Bengali', 'Berber', 'Betawi', 'Bicol', 'Bisaya', 'Bobangi', 'Bosnian', 'Brahui', 'Breton', 'Butuanon', 'Bukusu', 'Bulgarian', 'Burmese', 'Carib', 'Catalan', 'Catawba', 'Cayuga', 'Cebuano', 'Chamorro', 'Chechen', 'Cherokee', 'Chewa', 'Cheyenne', 'Chickasaw', 'Chinese/Cantonese/Yue', 'Chinese/Danzhou', 'Chinese/Gan', 'Chinese/Hakka', 'Chinese/Hokkien', 'Chinese/Mandarin', 'Chinese/Min Bei', 'Chinese/Min Dong', 'Chinese/Min Zhong', 'Chinese/Pu Xian', 'Chinese/Qiong Wen', 'Chinese/Shao Jiang', 'Chinese/Shaozhou Tuhua', 'Chinese/Taiwanese/Min Nan/Hokkien', 'Chinese/Wu/Shanghainese', 'Chinese/Xiang/Hunanese', 'Chinese/Xianghua', 'Chinese/Yue', 'Chinook', 'Ch\'ol', 'Chorti', 'Cispa', 'Coptic', 'Cornish', 'Corsican', 'Cree', 'Creole', 'Croatian', 'Czech', 'Danish', 'Delaware', 'Demonh\'ka', 'Denya', 'Duma', 'Dutch', 'Eggon', 'Ejagham', 'Ekegusii', 'Emakua', 'Eskimo', 'Esperanto', 'Estonian', 'Ewe', 'Fang', 'Faroese', 'Farsi', 'Finnish', 'Flemish', 'Frankish', 'French', 'Frisian', 'Fulfulde', 'Gaelic', 'Galician', 'Gaulish', 'Gamilaraay', 'Ganda', 'Gbari', 'Georgian', 'German', 'Gevove', 'Gilbertese', 'Ginyama', 'Gothic', 'Greek', 'Guarani', 'Gujarati', 'Gullah', 'Haida', 'Hakka', 'Hawaiian', 'Hausa', 'Hiligaynon', 'Hebrew', 'Hmong', 'Hindi', 'Hittite', 'Holoholo', 'Hungarian', 'Icelandic', 'Igbo', 'Ilongo', 'Indonesian', 'Ingush', 'Interlingua', 'Inuktitut', 'Inzebi', 'Irish', 'Ishkashmi', 'Italian', 'Jangshung', 'Japanese', 'Jita', 'Kalanga', 'Kannada', 'Kapampangan', 'Karelian', 'Kamviri', 'Karuk', 'Kashubian', 'Katcha', 'Kazakh', 'Kerewe', 'Khakas', 'Khmer', 'Khowar', 'Kiga', 'Kinyarwanda', 'Kituba', 'Klallam', 'Konkani', 'Korean', 'Koromfé', 'Koyo', 'Kurdish', 'Kyrgyz', 'Lao', 'Lakhota', 'Latgalian', 'Latin', 'Latvian', 'Lingala', 'Lithuanian', 'Livonian', 'Lojban', 'Lozi', 'Luxembourgish', 'Luwian', 'Lydian', 'Macedonian', 'Malagasy', 'Malay', 'Maliseet', 'Malayalam', 'Maltese', 'Mambwe', 'Manchu', 'Mandinka', 'Manx', 'Maori', 'Mapudungun', 'Marathi', 'Masaba', 'Mayan', 'Mayangna', 'Mawu', 'Miami', 'Michif', 'Miskitu', 'Mixtec', 'Mohawk', 'Mongolian', 'Mpongwe', 'Nahuatl', 'Nande', 'Nanticoke', 'Nauruan', 'Navajo', 'Ndebele', 'Nepalese', 'Newari', 'Nhirrpi', 'Norwegian', 'Nyambo', 'Nyamwezi', 'Occitan', 'Ojibwe', 'Olkola', 'Olutec', 'Onondaga', 'Oriya', 'Oscan', 'Oykangand', 'Pahlavi', 'Pakahn', 'Pali', 'Papiamento', 'Pashto', 'Pende', 'Passamdy', 'Phrygian', 'Pirahã', 'Polish', 'Popoluca', 'Portuguese', 'Potawatomi', 'Pulaar', 'Punjabi', 'Quechua', 'Quenya', 'Rapa Nui', 'Rasta', 'Rejang', 'Romani', 'Romanian', 'Roviana', 'Rotuman', 'Russian', 'Saanich', 'Saami', 'Samoan', 'Sanskrit', 'Sardinian', 'Scots', 'Serbian', 'Seri', 'Sherpa', 'Shi', 'Sina Bidoyoh', 'Shona', 'Shoshoni', 'Sindarin', 'Sinhalese', 'Slovak', 'Slovene', 'Sogdian', 'Somali', 'Sorbian', 'Spanish', 'Sranan', 'Sûdovian', 'Sumerian', 'Swabian', 'Swahili', 'Swedish', 'Swiss German', 'Tagalog', 'Tamasheq', 'Tahitian', 'Taino', 'Tajik', 'Tamazight', 'Tamil', 'Tarahumara', 'Tarok', 'Tatar', 'Telugu', 'Tetan', 'Thai', 'Tibetan', 'Tlingit', 'Tocharian', 'Tongan', 'Turkish', 'Turkmen', 'Twi', 'Ukrainian', 'Ulwa', 'Umbrian', 'Üqoi', 'Urdu', 'Uyghur', 'Uzbek', 'Venda', 'Veps', 'Vietnamese', 'Votic', 'Wagiman', 'Walloon', 'Warlpiri', 'Welsh', 'Wolof', 'Wyandot', 'Xhosa', 'Yaka', 'Yao', 'Yemba', 'Yiddish', 'Yoruba', 'Zarma', 'Zoque', 'Zulu', 'Other'
+    ];
+
+    var surveyIntro = {
+        type: 'html-button-response',
+        stimulus: '<p align="center">Now we have a few questions about you and your experiences.</p><p></p><br>',
+        choices: ['Next']
+    };
+
+    var demographics = {
+        timeline: [
+            {
+                type: 'survey-text-number',
+                questions: [{ prompt: '<p>How old are you?</p>' }],
+            },
+            {
+                type: 'html-button-response',
+                stimulus: '<p>What is your gender?</p>',
+                prompt: '',
+                choices: ['Female', 'Male', 'Other']
+            }
+        ]
+    };
+
+    var english = {
+        type: 'html-button-response',
+        stimulus: '<p>Is English your native language?</p>',
+        choices: ['Yes', 'No']
+    };
+
+    var language = {
+        type: 'survey-text-dropdown',
+        alert: 'Please select your language from the dropdown menu.',
+        questions: [
+            {
+            prompt: 'What is your native language?',
+            choices: langList
+            }
+        ]
+    };
+
+    var languageConditional = {
+        timeline: [language],
+        conditional_function: function() {
+            var button = jsPsych.data
+            .get()
+            .last(1)
+            .values()[0].button_pressed;
+            if (button == 1) {
+            return true;
+            } else {
+            return false;
+            }
+        }
+    };
+
+    // Validation check
+    var validation = {
+        timeline: [
+            {
+                type: 'html-button-response',
+                stimulus: '<p align="center">Did you wear headphones for the entire duration of this study?</p><p></p><br>',
+                choices: ['Yes', 'No']
+            },
+            {
+                type: 'html-button-response',
+                stimulus: '<p align="center">Tell us about the place where you did this study.</p><p></p><br>',
+                choices: ['I was in a very noisy place', 'I was in a somewhat noisy place', 'I was in a somewhat quiet place', 'I was in a very quiet place']
+            }
+        ]
+    };
+
+    // Music experience questions
+    var music = {
+        timeline: [
+            {
+                type: 'survey-multi-select',
+                questions: [
+                    {
+                        prompt: '<p align="center">Have you taken any music-related lessons?</p><p></p><br>',
+                        options: ['Yes, for a musical instrument', 'Yes, for singing', 'Yes, for music theory', 'Yes, for audio engineering', 'No']
+                    }
+                ]
+            },
+            {
+                type: 'survey-multi-select',
+                questions: [
+                    {
+                        prompt: '<p align="center">Which of the follow describe your experience with singing (check all that apply)?</p><p></p><br>',
+                        options: ['I have sung in choral groups', 'I have sung in acapella groups', 'I have sung in a group with 5-10 members', 'I have sung in a quartet (group of 4)', 'I have sung in a trio (group of 3)', 'I have sung in a duet', 'I have sung solo', 'I have no singing experience']
+                    }
+                ]
+            },
+            {
+                type: 'survey-multi-select',
+                questions: [
+                    {
+                        prompt: '<p align="center">Which of the follow describe your experience with playing a musical instrument (check all that apply)?</p><p></p><br>',
+                        options: ['I have played in an orchestra/large band', 'I have played in a group with 5-10 members', 'I have played in a quartet (group of 4)', 'I have played in a trio (group of 3)', 'I have played in a duet', 'I have played solo', 'I have no musical instrument experience']
+                    }
+                ]
+            }
+        ]
+    };
+
+    // Mood and personality questions
+    var mood = {
+        type: 'survey-multi-choice',
+        questions: [
+            {
+                prompt: '<p align="left">Choose the word that best describes your current mood.</p><p></p><br>',
+                options: ['Sad', 'Bored', 'Calm', 'Relaxed', 'Cheerful', 'Excited', 'Tense', 'Iritated', 'Neutral']
+            }
+        ]
+    }
+
+    var anxietySTAI = {
+        type: 'survey-multi-choice',
+        preamble: '<p align="left">Read each following statement and select the appropriate response to indicate how you feel right now, that is, at this very moment. There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p><table align="center" width="90%"><tr><th>1</th><th>2</th><th>3</th><th>4</th></tr><tr><td>Not at all</td><td>A little</td><td>Somewhat</td><td>Very much so</td></tr></table><br>',
+        questions: [
+            {
+                prompt: '1. I feel calm',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '2. I feel secure',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '3. I feel tense',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '4. I feel strained',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '5. I feel at ease',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '6. I feel upset',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '7. I am presently worrying over possible misfortunes',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '8. I feel satisfied',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '9. I feel frightened',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '10. I feel uncomfortable',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '11. I feel self confident',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '12. I feel nervous',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '13. I feel jittery',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '14. I feel indecisive',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '15. I feel relaxed',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '16. I feel content',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '17. I feel worried',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '18. I feel confused',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '19. I feel steady',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            },
+            {
+                prompt: '20. I feel pleasant',
+                options: ['1', '2', '3', '4'],
+                horizontal: true
+            }
+        ]
+    }
+
+    var anxietyBECK = {
+        type: 'survey-multi-choice',
+        preamble: '<p align="left">Below is a list of common symptoms of anxiety. Please carefully read each item in the list. Indicate how much you have been bothered by that symptom during the past month, including today, by selecting the number below each symptom.</p><table align="center" width="90%" style="font-size: 0.9em"><tr><th>0</th><th>1</th><th>2</th><th>3</th></tr><tr><td>Not at all</td><td>Mildly, but it didn\'t bother me much</td><td>Moderately - it wasn\'t pleasant at times</td><td>Severely - it bothered me a lot</td></tr></table><br>',
+        questions: [
+            {
+                prompt: 'Numbness or tingling',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Feeling hot',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Wobbliness in legs',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Unable to relax',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Fear of worst happening',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Dizzy or lightheaded',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Heart pounding / racing',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Unsteady',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Terrified or afraid',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Nervous',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Feeling of choking',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Hands trembling',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Shaky / unsteady',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Fear of losing control',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Difficulty in breathing',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Fear of dying',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Scared',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Indigestion',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Faint / lightheaded',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Face flushed',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            },
+            {
+                prompt: 'Hot / cold sweats',
+                options: ['0', '1', '2', '3'],
+                horizontal: true
+            }
+        ]
+    }
+
+    var connectedness = {
+        type: 'survey-multi-choice',
+        preamble: '<p align="left">Read each following statements and select the appropriate response to indicate how accurately you feel it describes how you feel, on a scale from 1 to 6.</p><table align="center"><tr><th>Strongly agree</th><th>&emsp;1&emsp;</th><th>&emsp;2&emsp;</th><th>&emsp;3&emsp;</th><th>&emsp;4&emsp;</th><th>&emsp;5&emsp;</th><th>&emsp;6&emsp;</th><th>Strongly disagree</th></tr></table><br>',
+        questions: [
+            {
+                prompt: 'I feel disconnected from the world around me.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'Even around people I know, I don\'t feel that I really belong.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'I feel so distant from people.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'I have no sense of togetherness with my peers.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'I don\'t feel related to anyone.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'I catch myself losing all sense of connectedness with society.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'Even among my friends, there is no sense of brother/sisterhood.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'I don\'t feel I participate with anyone or any group.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'I feel more comfortable when someone is constantly with me.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'I\'m more at ease doing things together with other people.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'Working side by side with others is more comfortable than working alone.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'My life is incomplete without a buddy beside me.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'It\'s hard for me to use my skills and talents without someone beside me.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'I stick to my friends like glue.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'I join groups more for the friendship than the activity itself.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            },
+            {
+                prompt: 'I wish to find someone who can be with me all the time.',
+                options: ['1', '2', '3', '4', '5', '6'],
+                horizontal: true
+            }
+        ]
+    }
+
+/* ~~~ DEBRIEF ~~~ */
+
+
+/* ~~~ END ~~~ */
+
+
+
+// Build out timeline
+timeline.push(
+    welcome,
+    headphoneIntro,
+    headphoneCheck,
+    num_intro,
+    num_practice,
+    num_ready,
+    num_trials,
+    surveyIntro,
+    demographics,
+    english,
+    languageConditional,
+    validation,
+    music,
+    anxietySTAI,
+    connectedness
+);
+
+
+
+// Experiment logic
+    jsPsych.init({
+        timeline: timeline,
+        preload_audio: audioPreload,
+        preload_images: images.stimulus,
+        use_webaudio: false,
+        on_finish: function() {
+            jsPsych.data.displayData();
+        }
+    });
+	</script>
+</html>
