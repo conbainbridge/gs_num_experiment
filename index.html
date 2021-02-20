@@ -615,12 +615,12 @@
         timeline: [
             {
                 type: 'html-button-response',
-                stimulus: '<p align="left">In this task, you will be listening to audio recordings of voices. You will be asked to select the button with the number of voices you think you heard in the recording.</p><p></p><br>',
+                stimulus: '<p align="left">In this task, you will be listening to audio recordings of voices. You will be asked to select the button with the number of voices you think you heard in the recording. You will be able to respond only after the recording has finished playing.</p><p></p><br>',
                 choices: ['Next']
             },
             {
                 type: 'html-button-response',
-                stimulus: '<p align="left">Let\'s try some practice trials! In the practice, you will do a similar task, but will be guessing the number of circles in an image instead of hearing voices. Select the button with the number of circles you think you see in the image.<p></p><br>',
+                stimulus: '<p align="left">Let\'s try some practice trials! In the practice, you will do a similar task, but will be guessing the number of circles in an image instead of hearing voices. Select the button with the number of circles you think you see in the image. You will be able to respond after one second of viewing the image of circles.<p></p><br>',
                 choices: ['Next']
             }
         ]
@@ -677,7 +677,7 @@
     // Real trials
     var num_ready = {
         type: 'html-button-response',
-        stimulus: '<p align="left">Now let\'s start with the real task! Select the button with the number of voices you think you heard in the recording. You must hear the audio before responding.</p><p></p><br>',
+        stimulus: '<p align="left">Now let\'s start with the real task! Select the button with the number of voices you think you heard in the recording. You will be able to respond only after the recording has finished playing.</p><p></p><br>',
         choices: ['Next']
     };
 
