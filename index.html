@@ -19,7 +19,7 @@
     <script src="./jspsych-6.2.0/plugins/jspsych-survey-likert.js"></script>
     <script src="./jspsych-6.2.0/plugins/custom/jspsych-survey-text-number.js"></script>
     <script src="./jspsych-6.2.0/plugins/custom/jspsych-survey-text-dropdown.js"></script>
-
+    <script src="./jspsych-6.2.0/plugins/custom/jspsych-audio-button-mousetrack.js"></script>
   </head>
   <body></body>
 
@@ -545,7 +545,8 @@
         "./study_stim/antiphase_HC_OSI.mp3",
         "./study_stim/antiphase_HC_S.mp3",
         "./study_stim/antiphase_HC_SIO.mp3",
-        "./study_stim/antiphase_HC_SOI.mp3"
+        "./study_stim/antiphase_HC_SOI.mp3",
+        "./study_stim/silence_1s.wav"
     ]
     audioPreload.push(audio)
     console.log(audioPreload);
@@ -559,14 +560,14 @@
 /* ~~~ CONSENT ~~~ */
     var welcome = {
         type: 'html-button-response',
-        stimulus: '<p align="left">Before you decide to participate, please read the following information.</p><p align="left">This study is being conducted by researchers in the Department of Communication at University of California, Los Angeles. You are eligible to participate in this research because you are at least 18 years of age</p><p align="left">The goal in this study is to see how well listeners can identify the number of speakers from hearing a group vocalize together. In this study you will be presented with recordings of multiple speakers and asked questions about the number of speakers. The study will take about 20 minutes. You will be awarded course credit for your completion of the study.</p><p align="left">No potential risks or discomforts are anticipated. This research may help us to better understand the perception of group vocalizations.</p><p align="left">The researchers will do their best to make sure that your private information is kept confidential. Information about you will be handled as confidentially as possible, but participating in research may involve a loss of privacy and the potential for a breach in confidentiality. Study data will be physically and electronically secured.  As with any use of electronic means to store data, there is a risk of breach of data security. Your data, including de-identified data may be kept for use in future research.</p><p align="left">If you have questions or concerns about the research, please feel free to contact the Principal Investigator:</p><p align="left">PLACEHOLDER</p><p align="left">You may withdraw your consent at any time and may discontinue participation without penalty.  You are not waiving any legal claims, rights or remedies because of your child’s participation in this research study. If you have questions about your rights as a research subject, or you have concerns or suggestions and you want to talk to someone other than the researchers, you may contact the UCLA OHRPP by phone: PLACEHOLDER</p><p align="center"><b>Please wear headphones for the duration of this study!</b></p><br>',
+        stimulus: '<p align="left">Before you decide to participate, please read the following information.</p><p align="left">This study is being conducted by researchers in the Department of Communication at University of California, Los Angeles. You are eligible to participate in this research because you are at least 18 years of age</p><p align="left">The goal in this study is to see how well listeners can identify the number of speakers from hearing a group vocalize together. In this study you will be presented with recordings of multiple speakers and asked questions about the number of speakers. The study will take about 20 minutes. You will be awarded course credit for your completion of the study.</p><p align="left">No potential risks or discomforts are anticipated. This research may help us to better understand the perception of group vocalizations.</p><p align="left">If you have questions or concerns about the research, please feel free to contact the Principal Investigator:</p><p align="left">PLACEHOLDER</p><p align="left">You may withdraw your consent at any time and may discontinue participation without penalty. If you have questions about your rights as a research subject, or you have concerns or suggestions and you want to talk to someone other than the researchers, you may contact the UCLA OHRPP by phone: PLACEHOLDER</p><p align="center"><b>Please wear headphones for the duration of this study!</b></p><br>',
         choices: ['Next']
     };
 
 /* ~~~ HHEADPHONE CHECK ~~~ */
     var headphoneIntro = {
         type: 'html-button-response',
-        stimulus: '<p>In this section, we will play you some tones and ask you questions about them.</p><p>This helps us to calibrate the audio for your device and your headphones.</p><p>After you click "Continue", <b>you will hear three tones.</b></p><p>We will ask you which one was the <b>QUIETEST/SOFTEST</b>.</p><p>The tones will only be played once, so listen carefully!</p>',
+        stimulus: '<p>In this section, we will play you some tones and ask you questions about them.</p><p>This helps us to calibrate the audio for your device and your headphones.</p><p>After you click "Continue", <b>you will hear three tones.</b></p><p>We will ask you which one was the <b>QUIETEST/SOFTEST</b>.</p><p>The tones will only be played once, so listen carefully!</p><p><b>Please make sure your audio is unmuted and the volume is at a comfortable level.</b></p>',
         prompt1: ' ',
         prompt2: ' ',
         choices: ['Continue']
@@ -577,19 +578,22 @@
                 type: 'audio-keyboard-response',
                 stimulus: jsPsych.timelineVariable('stimulus1'),
                 prompt: '<br><br><p><font size="36px">1</font></p>',
-                trial_ends_after_audio: true
+                trial_ends_after_audio: true,
+                response_ends_trial: false
             },
             {
                 type: 'audio-keyboard-response',
                 stimulus: jsPsych.timelineVariable('stimulus2'),
                 prompt: '<br><br><p><font size="36px">2</font></p>',
-                trial_ends_after_audio: true
+                trial_ends_after_audio: true,
+                response_ends_trial: false
             },
             {
                 type: 'audio-keyboard-response',
                 stimulus: jsPsych.timelineVariable('stimulus3'),
                 prompt: '<br><br><p><font size="36px">3</font></p>',
-                trial_ends_after_audio: true
+                trial_ends_after_audio: true,
+                response_ends_trial: false
             },
             {
                 type: 'html-keyboard-response',
@@ -616,7 +620,7 @@
             },
             {
                 type: 'html-button-response',
-                stimulus: '<p align="left">Let\'s first do a practice! In the practice, you will do the same task, but with images of circles. Select the button with the number of circles you think you see in the image.<p></p><br>',
+                stimulus: '<p align="left">Let\'s try some practice trials! In the practice, you will do a similar task, but will be guessing the number of circles in an image instead of hearing voices. Select the button with the number of circles you think you see in the image.<p></p><br>',
                 choices: ['Next']
             }
         ]
@@ -633,10 +637,11 @@
                 stimulus: ''
             },
             {
-                type: 'html-button-response',
-                stimulus: '',
+                type: 'audio-button-mousetrack',
+                stimulus: './study_stim/silence_1s.wav',
+                response_allowed_while_playing: false,
                 prompt: '<p align="center"><img src="./study_stim/dotsA.png"><br>How many individual circles are there?</p>',
-                choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
             },
             {
                 type: 'html-button-response',
@@ -646,8 +651,9 @@
                 stimulus: ''
             },
             {
-                type: 'html-button-response',
-                stimulus: '',
+                type: 'audio-button-mousetrack',
+                stimulus: './study_stim/silence_1s.wav',
+                response_allowed_while_playing: false,
                 prompt: '<p align="center"><img src="./study_stim/dotsB.png"><br>How many individual circles are there?</p>',
                 choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
             },
@@ -659,8 +665,9 @@
                 stimulus: ''
             },
             {
-                type: 'html-button-response',
-                stimulus: '',
+                type: 'audio-button-mousetrack',
+                stimulus: './study_stim/silence_1s.wav',
+                response_allowed_while_playing: false,
                 prompt: '<p align="center"><img src="./study_stim/dotsC.png"><br>How many individual circles are there?</p>',
                 choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
             }
@@ -670,7 +677,7 @@
     // Real trials
     var num_ready = {
         type: 'html-button-response',
-        stimulus: '<p align="left">Now let\'s start with the real task! Select the button with the number of voices you think you heard in the recording.</p><p></p><br>',
+        stimulus: '<p align="left">Now let\'s start with the real task! Select the button with the number of voices you think you heard in the recording. You must hear the audio before responding.</p><p></p><br>',
         choices: ['Next']
     };
 
@@ -681,13 +688,13 @@
                 prompt: '<p align="center">Start trial?</p>',
                 button_html: '<button class="jspsych-btn" style="margin-top: 300px">%choice%</button>',
                 choices: ['Go!'],
-                stimulus: '',
-                data: jsPsych.timelineVariable('data')
+                stimulus: ''
             },
             {
-                type: 'audio-button-response',
+                type: 'audio-button-mousetrack',
                 prompt: '<p align="center" style="margin-top: 300px">How many individual voices are there?</p>',
                 choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                response_allowed_while_playing: false,
                 stimulus: jsPsych.timelineVariable('stimulus'),
                 data: jsPsych.timelineVariable('data'),
                 on_finish: function(data) {
@@ -790,7 +797,8 @@
                 questions: [
                     {
                         prompt: '<p align="center">Have you taken any music-related lessons?</p><p></p><br>',
-                        options: ['Yes, for a musical instrument', 'Yes, for singing', 'Yes, for music theory', 'Yes, for audio engineering', 'No']
+                        options: ['Yes, for a musical instrument', 'Yes, for singing', 'Yes, for music theory', 'Yes, for audio engineering', 'No'],
+                        required: true
                     }
                 ]
             },
@@ -799,7 +807,8 @@
                 questions: [
                     {
                         prompt: '<p align="center">Which of the follow describe your experience with singing (check all that apply)?</p><p></p><br>',
-                        options: ['I have sung in choral groups', 'I have sung in acapella groups', 'I have sung in a group with 5-10 members', 'I have sung in a quartet (group of 4)', 'I have sung in a trio (group of 3)', 'I have sung in a duet', 'I have sung solo', 'I have no singing experience']
+                        options: ['I have sung in choral groups', 'I have sung in acapella groups', 'I have sung in a group with 5-10 members', 'I have sung in a quartet (group of 4)', 'I have sung in a trio (group of 3)', 'I have sung in a duet', 'I have sung solo', 'I have no singing experience'],
+                        required: true
                     }
                 ]
             },
@@ -808,7 +817,8 @@
                 questions: [
                     {
                         prompt: '<p align="center">Which of the follow describe your experience with playing a musical instrument (check all that apply)?</p><p></p><br>',
-                        options: ['I have played in an orchestra/large band', 'I have played in a group with 5-10 members', 'I have played in a quartet (group of 4)', 'I have played in a trio (group of 3)', 'I have played in a duet', 'I have played solo', 'I have no musical instrument experience']
+                        options: ['I have played in an orchestra/large band', 'I have played in a group with 5-10 members', 'I have played in a quartet (group of 4)', 'I have played in a trio (group of 3)', 'I have played in a duet', 'I have played solo', 'I have no musical instrument experience'],
+                        required: true
                     }
                 ]
             }
@@ -821,7 +831,8 @@
         questions: [
             {
                 prompt: '<p align="left">Choose the word that best describes your current mood.</p><p></p><br>',
-                options: ['Sad', 'Bored', 'Calm', 'Relaxed', 'Cheerful', 'Excited', 'Tense', 'Iritated', 'Neutral']
+                options: ['Sad', 'Bored', 'Calm', 'Relaxed', 'Cheerful', 'Excited', 'Tense', 'Iritated', 'Neutral'],
+                required: true
             }
         ]
     }
@@ -833,102 +844,142 @@
             {
                 prompt: '1. I feel calm',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI1'
             },
             {
                 prompt: '2. I feel secure',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI2'
             },
             {
                 prompt: '3. I feel tense',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI3'
             },
             {
                 prompt: '4. I feel strained',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI4'
             },
             {
                 prompt: '5. I feel at ease',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI5'
             },
             {
                 prompt: '6. I feel upset',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI6'
             },
             {
                 prompt: '7. I am presently worrying over possible misfortunes',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI7'
             },
             {
                 prompt: '8. I feel satisfied',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI8'
             },
             {
                 prompt: '9. I feel frightened',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI9'
             },
             {
                 prompt: '10. I feel uncomfortable',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI10'
             },
             {
                 prompt: '11. I feel self confident',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI11'
             },
             {
                 prompt: '12. I feel nervous',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI12'
             },
             {
                 prompt: '13. I feel jittery',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI13'
             },
             {
                 prompt: '14. I feel indecisive',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI14'
             },
             {
                 prompt: '15. I feel relaxed',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI15'
             },
             {
                 prompt: '16. I feel content',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI16'
             },
             {
                 prompt: '17. I feel worried',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI17'
             },
             {
                 prompt: '18. I feel confused',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI18'
             },
             {
                 prompt: '19. I feel steady',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI19'
             },
             {
                 prompt: '20. I feel pleasant',
                 options: ['1', '2', '3', '4'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'STAI20'
             }
         ]
     }
@@ -940,194 +991,268 @@
             {
                 prompt: 'Numbness or tingling',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck1'
             },
             {
                 prompt: 'Feeling hot',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck2'
             },
             {
                 prompt: 'Wobbliness in legs',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck3'
             },
             {
                 prompt: 'Unable to relax',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck4'
             },
             {
                 prompt: 'Fear of worst happening',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck5'
             },
             {
                 prompt: 'Dizzy or lightheaded',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck6'
             },
             {
                 prompt: 'Heart pounding / racing',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck7'
             },
             {
                 prompt: 'Unsteady',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck8'
             },
             {
                 prompt: 'Terrified or afraid',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck9'
             },
             {
                 prompt: 'Nervous',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck10'
             },
             {
                 prompt: 'Feeling of choking',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck11'
             },
             {
                 prompt: 'Hands trembling',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck12'
             },
             {
                 prompt: 'Shaky / unsteady',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck13'
             },
             {
                 prompt: 'Fear of losing control',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck14'
             },
             {
                 prompt: 'Difficulty in breathing',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck15'
             },
             {
                 prompt: 'Fear of dying',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck16'
             },
             {
                 prompt: 'Scared',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck17'
             },
             {
                 prompt: 'Indigestion',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck18'
             },
             {
                 prompt: 'Faint / lightheaded',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck19'
             },
             {
                 prompt: 'Face flushed',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck21'
             },
             {
                 prompt: 'Hot / cold sweats',
                 options: ['0', '1', '2', '3'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'Beck21'
             }
         ]
     }
 
-    var connectedness = {
+    var social = {
         type: 'survey-multi-choice',
         preamble: '<p align="left">Read each following statements and select the appropriate response to indicate how accurately you feel it describes how you feel, on a scale from 1 to 6.</p><table align="center"><tr><th>Strongly agree</th><th>&emsp;1&emsp;</th><th>&emsp;2&emsp;</th><th>&emsp;3&emsp;</th><th>&emsp;4&emsp;</th><th>&emsp;5&emsp;</th><th>&emsp;6&emsp;</th><th>Strongly disagree</th></tr></table><br>',
         questions: [
             {
                 prompt: 'I feel disconnected from the world around me.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialC1'
             },
             {
                 prompt: 'Even around people I know, I don\'t feel that I really belong.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialC2'
             },
             {
                 prompt: 'I feel so distant from people.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialC3'
             },
             {
                 prompt: 'I have no sense of togetherness with my peers.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialC4'
             },
             {
                 prompt: 'I don\'t feel related to anyone.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialC5'
             },
             {
                 prompt: 'I catch myself losing all sense of connectedness with society.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialC6'
             },
             {
                 prompt: 'Even among my friends, there is no sense of brother/sisterhood.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialC7'
             },
             {
                 prompt: 'I don\'t feel I participate with anyone or any group.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialC8'
             },
             {
                 prompt: 'I feel more comfortable when someone is constantly with me.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialA1'
             },
             {
                 prompt: 'I\'m more at ease doing things together with other people.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialA2'
             },
             {
                 prompt: 'Working side by side with others is more comfortable than working alone.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialA3'
             },
             {
                 prompt: 'My life is incomplete without a buddy beside me.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialA4'
             },
             {
                 prompt: 'It\'s hard for me to use my skills and talents without someone beside me.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialA5'
             },
             {
                 prompt: 'I stick to my friends like glue.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialA6'
             },
             {
                 prompt: 'I join groups more for the friendship than the activity itself.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialA7'
             },
             {
                 prompt: 'I wish to find someone who can be with me all the time.',
                 options: ['1', '2', '3', '4', '5', '6'],
-                horizontal: true
+                horizontal: true,
+                required: true,
+                name: 'socialA8'
             }
         ]
     }
@@ -1155,7 +1280,7 @@ timeline.push(
     validation,
     music,
     anxietySTAI,
-    connectedness
+    social
 );
 
 
